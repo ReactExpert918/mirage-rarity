@@ -61,7 +61,7 @@ typings/
 .next
 
 # database
-*.sqlite
+
 
 # system
 .DS_Store

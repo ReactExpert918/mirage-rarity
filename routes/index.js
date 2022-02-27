@@ -335,9 +335,11 @@ router.get("/wallet", function (req, res, next) {
 
 
 router.get("/", (req, res, next) => {
+  console.log("dir", `${__dirname}/../config`);
   let files = fs.readdirSync(`${__dirname}/../config`)
   files = files.filter(el => el.slice(-6) === "sqlite").map(el=>el.slice(0,-7))
   let collection = []
+  console.log(files)
   files.forEach(file => {
     collection.push({name:file,content:"NO content",link:`/${file}`})
   })
