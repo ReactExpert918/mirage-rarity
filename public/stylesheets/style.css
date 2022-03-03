@@ -483,8 +483,8 @@ a {
 }
 
 .punk-component {
-  width: 218px;
-  height: 280px;
+  width: 22%;
+  height: auto;
   border: 1px solid #A9A9A9;
   box-sizing: border-box;
   border-radius: 13px;
@@ -496,7 +496,6 @@ a {
   width: 90%;
   border-radius: 10px;
   margin: 0 5%;
-  height: 195px;
 }
 
 .punk-component > a {
