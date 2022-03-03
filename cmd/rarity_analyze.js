@@ -11,10 +11,12 @@ const argv = require('minimist')(process.argv.slice(2),{
 
 let mode = argv['mode'];
 exports.rarity_analyze = (configFile) => {
+  console.log(configFile);
   const config = require(appRoot + `/config/${configFile}`);
   const collectionData = require(appRoot +
     "/config/" +
     config.collection_file_name);
+  console.log("path", collectionData);
   let collection = config.sqlite_file_name.slice(0,-7);
   const databasePath = appRoot + "/config/" + config.sqlite_file_name;
 

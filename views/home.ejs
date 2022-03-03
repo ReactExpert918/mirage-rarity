@@ -1,54 +1,109 @@
 <html>
   <head>    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@1,700&amp;display=swap" rel="stylesheet" media="all" onload="this.media='all'">
     <link rel='stylesheet' href='/stylesheets/style.css?1' />
+    <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
   </head>
   <title>Mirage Collections</title>
-  <body class="bg-white">
-    <div style="min-height: 100%; max-width: 100%;">
-        <div class="mb-4">
-            <h1 style="text-align:center; color:blue">Mirage Collections</h1>
-            <nav class="navbar navbar-expand-lg navbar-light;" style="background-color: #e3f2fd;">
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Features</a>
-                    </li>
-                </ul>
+  <body class="home">
+    <%- include('./component/header'); -%>
+    <div class="container">
+        <div class="description">
+            <div class="descriptionText">
+                <p class="title">NFT Rarity</p>
+                <p class="title">Analytics</p>
+                <p class="subtitle">Now on Oasis Protocol</p>
+                <p class="des">Powered by Mirage Market</p>
+                <p class="des">(Buy cactus mirage for exclusive perks)</p>
             </div>
-            </nav>
+            <div class="descriptionImg">
+                <div class="item1">
+                    <img src="images/Beard desert.png" />
+                </div>
+                <div class="item2">
+                    <img src="images/Garden BG.png" />
+                </div>
+                <div class="item3">
+                    <img src="images/Girl.png" />
+                </div>  
+                <div class="item4">
+                    <img src="images/Beard desert.png" />
+                </div>
+                <div class="item5">
+                    <img src="images/Garden BG.png" />
+                </div>
+                <div class="item6">
+                    <img src="images/Rainbow.png" />
+                </div>
+                <div class="item7">
+                    <img src="images/Beard desert.png" />
+                </div>
+                <div class="item8">                    
+                    <img src="images/Girl.png" />
+                </div>  
+                <div class="item9">
+                    <img src="images/Beard desert.png" />
+                </div>
+                <div class="item10">
+                    <img src="images/Smart Spaceman 2.png" />
+                </div>
+                <div class="item11">
+                    <img src="images/Girl.png" />
+                </div>
+                <div class="item12">
+                    <img src="images/Smart Spaceman 2.png" />
+                </div>
+                <div class="item13">
+                    <img src="images/Smart Spaceman 2.png" />
+                </div>
+            </div>
         </div>
-        <div class="row container-fluid" style="max-width:100%;margin:auto">
-            <% collections.forEach((collection)=>{   %>
-                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" style="display:flex; margin-bottom:2%;">
-                    <a href="<%= collection.link %>">
-                        <div style="border: solid black; display:inline-block; margin:auto; text-align:center">
-                            <img src="https://files.realpython.com/media/random_data_watermark.576078a4008d.jpg" alt="random image" style="width:100%; height:50%;object-fit:scale-down ">
-                            <h3><%= collection.name %></h3>
-                            <p style="width:50ch"><%= collection.content %> </p>
+        <div class="content">
+            <div class="sideBar">
+                <div class="sideBarTitle">
+                    <img src="images/oasis.svg" />
+                </div>
+                <div class="sideBarTabGroup">
+                    <div class="sideBarTab">
+                        <img src="images/mail.svg" />
+                        <p class="tabName">NFT Collection</p>
+                    </div>
+                    <div class="sideBarTab">
+                        <img src="images/calendar.svg" />
+                        <p class="tabName">NFT Calendar</p>
+                    </div>
+                    <div class="sideBarTab">
+                        <img src="images/list.svg" />
+                        <p class="tabName">Get Listed</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mainContent">
+                <div class="contentTitle">
+                    Explore oasis nft collections
+                </div>
+                <div class="contentContainer" id="result">
+                    <% collections.forEach((collection)=>{   %>
+                        <div class="itemDiv">
+                            <a href="<%= collection.link %>">
+                                <img src="https://files.realpython.com/media/random_data_watermark.576078a4008d.jpg" />
+                                <h2><%= collection.name %></h2>
+                                <p><%= collection.content %></p>
+                            </a>
+                            <div class="itemSocial">
+                                <img src="images/discord.svg">
+                                <img src="images/twitter.svg">
+                            </div>
                         </div>
                     </a>
+                    <% }) %>
+
                 </div>
-            <% }) %>
-        </div> 
-        <div style="text-align:center">
-            <form action="/add" enctype="multipart/form-data" method="post">
-                <div class="mb-3">
-                    <label >Upload collection in JSON</label>
-                    <input type="file" name="collection" accept=".json" required>
-                </div>
-                <div class="mb-3">
-                    <label >Upload config for collection in JSON</label>
-                    <input type="file" name="config" accept=".js" required>
-                </div>
-                <div>
-                    <input type="Submit">
-                </div>
-            </form> 
+            </div>
         </div>
-    </div>    
+    </div>  
 </body>
 </html>

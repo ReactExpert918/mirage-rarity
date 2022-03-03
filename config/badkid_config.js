@@ -13,7 +13,7 @@ const config = {
   ga: "G-BW69Z04YTP",
   main_og_image: "https://onedaypunk-rarity-tool.herokuapp.com/images/og.png",
   item_path_name: "badkid",
-  page_item_num: 60,
+  page_item_num: 16,
   content_image_is_video: false,
   content_image_frame: "circle", // circle, rectangle
   use_wallet: false,

@@ -36,6 +36,8 @@ router.get("/:collectionName", function (req, res, next) {
   let offset = 0;
   let limit = config.page_item_num;
 
+  console.log(limit);
+
   if (_.isEmpty(search)) {
     search = "";
   }
@@ -335,15 +337,29 @@ router.get("/wallet", function (req, res, next) {
 
 
 router.get("/", (req, res, next) => {
-  console.log("dir", `${__dirname}/../config`);
   let files = fs.readdirSync(`${__dirname}/../config`)
   files = files.filter(el => el.slice(-6) === "sqlite").map(el=>el.slice(0,-7))
   let collection = []
-  console.log(files)
   files.forEach(file => {
     collection.push({name:file,content:"NO content",link:`/${file}`})
   })
+  console.log(collection);
   res.render("home",{collections:collection})
+})
+
+router.post("/search", (req, res, next) => {
+  let files = fs.readdirSync(`${__dirname}/../config`)
+  files = files.filter(el => el.slice(-6) === "sqlite").map(el=>el.slice(0,-7))
+  let collection = []
+  files.forEach((file, index) => {
+    if(req.query.keyword == "") {
+      collection.push({name:file,content:"NO content",link:`/${file}`})   
+    }
+    else if(file.indexOf(req.query.keyword) != -1) {
+      collection.push({name:file,content:"NO content",link:`/${file}`})      
+    }
+  })
+  res.send(collection);
 })
 
 router.post("/add", (req, res) => {
@@ -354,7 +370,7 @@ router.post("/add", (req, res) => {
      var oldPath = files.collection.filepath;
      var newPath = `${__dirname}/../config/${files.collection.originalFilename}`
      var rawData = fs.readFileSync(oldPath);
-      fs.writeFileSync(newPath, rawData)
+     fs.writeFileSync(newPath, rawData)
      oldPath = files.config.filepath;
      newPath = `${__dirname}/../config/${files.config.originalFilename}`;
      rawData = fs.readFileSync(oldPath);
