@@ -1,58 +1,75 @@
 <header>
   <div class="header">
     <div class="logo">
-      <img src="images/logo.png" alt="mirage-logo" />
+      <a href="/"><img src="images/logo.png" alt="mirage-logo" /></a>
     </div>
     <div class="search">
       <img src="images/search.svg" />
       <input type="text" placeholder="Search Collection" class="searchInput" onkeyup="showHint(this.value)" />
+      <div id="result1"></div>
     </div>
     <div class="social">
-      <a href="#" class="socialContainer">
+      <a href="http://t.me/miragemkt" target="_blank" class="socialContainer">
         <img src="images/telegram.svg" class="socialIcon" />
       </a>
-      <a href="#" class="socialContainer">
+      <a href="https://discord.gg/2V5fsANtfv" target="_blank" class="socialContainer">
         <img src="images/discord.svg" class="socialIcon" />
       </a>
-      <a href="#" class="socialContainer">
+      <a href="https://twitter.com/MirageMarket" target="_blank" class="socialContainer">
         <img src="images/twitter.svg" class="socialIcon" />
       </a>
     </div>
   </div>
   <script>
         function showHint(str) {
-          
+      if (str.length == 0) {
+        document.getElementById("result1").innerHTML = "";
+        return;
+      }
+      else {
         const xmlhttp = new XMLHttpRequest();
         xmlhttp.onload = function() {
             const res = JSON.parse(this.responseText);
-            console.log(res);
+          
             let temp_html = "";
             if(res == "") {
-                temp_html = "No Result"
+                temp_html = "<p class='noResult'>No Result<p>"
             }
-            else {
-                res.forEach((element) => {
-                temp_html += 
+            else {  
+                res.forEach((element, index) => {
+                  if(index == 0) {
+                    temp_html += 
+                    ` <div class="resultItem">
+                      <p>collection</p>
+                      </div>
+                      <div class="resultItem">
+                      <a href="${element.link}">
+                        <p>${element.name}</p>
+                        <p>${element.content}</p>
+                      </a>   
+                      </div>       
                     `
-                      <div class="itemDiv">
-                          <a href="${element.link}">
-                              <img src="https://files.realpython.com/media/random_data_watermark.576078a4008d.jpg" />
-                              <h2>${element.name}</h2>
-                              <p>${element.content}</p>
-                          </a>
-                          <div class="itemSocial">
-                              <img src="images/discord.svg">
-                              <img src="images/twitter.svg">
-                          </div>
+                  }
+                  else{
+                     temp_html += 
+                    `
+                    <div class="resultItem">
+                      <a href="${element.link}">
+                        <p>${element.name}</p>
+                        <p>${element.content}</p>
+                      </a>
                       </div>
                     `
-                    }
+                  }
+                                 
+                }
                 )
             }
-            document.getElementById("result").innerHTML = temp_html;
+            document.getElementById("result1").innerHTML = temp_html;
         }
-      xmlhttp.open("POST", "/search?keyword=" + str);
+        xmlhttp.open("POST", "/search?keyword=" + str);
       xmlhttp.send();
+      }
       }
     
     </script>  

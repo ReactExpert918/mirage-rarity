@@ -56,7 +56,7 @@ router.get('/:id', function (req, res, next) {
 
   let allDetailTraitTypesData = {};
   allDetailTraitTypes.forEach(detailTrait => {
-    allDetailTraitTypesData[detailTrait.trait_type_id+'|||'+detailTrait.trait_detail_type] = detailTrait.punk_count;
+    allDetailTraitTypesData[detailTrait.trait_type_id+'|||'+detailTrait.trait_detail_type] = detailTrait[collection+"_count"];
   });
 
   let allTraitCountTypesData = {};
@@ -73,6 +73,12 @@ router.get('/:id', function (req, res, next) {
   if (!_.isEmpty(punk)) {
     title = punk.name + ' | ' + config.app_name;
   }
+  allTraitTypes.forEach((trait) => {
+    if(collection != "punk") {
+      trait.punk_count = trait[collection+'_count'];
+    }
+
+  });
   
   res.render("punk", {
     appTitle: title,

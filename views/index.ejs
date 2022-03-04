@@ -34,7 +34,6 @@
             <span>Trait Normalisation</span>
             <div class="toggle-switch">
               <input type="checkbox" id="chkTest" name="chkTest" <% if (useTraitNormalization == '1') { %> checked <% } %> >
-              <!-- <input type="checkbox" id="chkTest" name="chkTest" > -->
               <label for="chkTest">
                 <span class="toggle-track"></span>
               </label>
@@ -45,39 +44,46 @@
       <div class="matrixContent">
         <div class="matrixFilter">
           <h3 class="matrixFilterTitle">FILTER</h3>
-           
-
-         <%
-          let currentTriat = '';
-          allTraits.forEach(function(trait) { 
-          %>
-            <% 
-            if (currentTriat != trait.trait_type) {
-              if (currentTriat != '') {
-                %>
-                </select>
-                <%
-              }
-            %>
-              <h4 class="filterName"><%= trait.trait_type %></h4>
-              <select name="trait_select_<%= trait.trait_type_id %>" class="trait-select" id="trait-select1">
-                <option value="<%= trait.trait_type_id %>_All">All (<%= allTraitTypesData[trait.trait_type] %>)</option>
-                <option value="<%= trait.trait_type_id %>_None" <% if (selectedTraits.includes(trait.trait_type_id+'_None')) { %> selected <% } %> >None (<%= (totalSupply - allTraitTypesData[trait.trait_type]) %>)</option>
-                <option value="<%= trait.trait_type_id %>_<%= trait.trait_detail_type %>" <% if (selectedTraits.includes(trait.trait_type_id+'_'+trait.trait_detail_type)) { %> selected <% } %> ><%= trait.trait_detail_type %> (<%= trait.punk_count %>)</option>
-            <% 
-              currentTriat = trait.trait_type;
-            } else {
-            %>
-                <option value="<%= trait.trait_type_id %>_<%= trait.trait_detail_type %>" <% if (selectedTraits.includes(trait.trait_type_id+'_'+trait.trait_detail_type)) { %> selected <% } %>><%= trait.trait_detail_type %> (<%= trait.punk_count %>)</option>
+          <div class="tabs">
             <%
-            }
+            let currentTriat = '';
+            allTraits.forEach(function(trait) { 
             %>
-          <%
-          });
-          %>
-          <% if (!_.isEmpty(allTraits)) { %>
-            </select>
-          <% } %>
+              <% 
+              if (currentTriat != trait.trait_type) {
+                if (currentTriat != '') {
+                  %>
+                  </div>
+                  <%
+                }
+              %>
+            <div class="tab">
+              <input type="checkbox" id="chck_<%= trait.trait_type_id %>" />
+              <label class="tab-label" for="chck_<%= trait.trait_type_id %>"><%= trait.trait_type %></label>
+              <div class="tab-content">
+                <input class="check" type="checkbox" name="">
+                <label><%= trait.trait_detail_type %> (<%= trait.punk_count %>)</label>
+              </div>
+              <% 
+                currentTriat = trait.trait_type;
+              } else {
+              %>
+              <div class="tab-content">
+                <input class="check" type="checkbox" name="">
+                <label><%= trait.trait_detail_type %> (<%= trait.punk_count %>)</label>
+              </div>
+              <%
+                }
+                %>
+              <%
+              });
+              %>
+              <% if (!_.isEmpty(allTraits)) { %>
+                </div>
+              <% } %>
+            
+          </div>
+        
         </div>
         <div class="matrixMain">
           <div>
@@ -173,6 +179,21 @@
           });
         }
       });
+
+        var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
+  });
+}
     </script>
   </body>
 </html>

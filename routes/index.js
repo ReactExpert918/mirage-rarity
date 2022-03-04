@@ -11,17 +11,17 @@ const Database = require("better-sqlite3");
 const _ = require("lodash");
 const formidable = require("formidable");
 const { captureRejectionSymbol } = require("events");
+const url = require('url');
 
 
 /* GET home page. */
 router.get("/:collectionName", function (req, res, next) {
-
   const config = require(appRoot + `/config/${req.params.collectionName}_config.js`);
   config.sqlite_file_name = `${req.params.collectionName}.sqlite`
   let databasePath = appRoot + "/config/" + config.sqlite_file_name;
   // if (!fs.existsSync(databasePath)) {
   //   rarity_analyze();
-  //   rarity_analyze_normalized();
+  //   rarity_analyze_normalized();                      
   // }
   const db = new Database(databasePath);
 
@@ -96,7 +96,8 @@ router.get("/:collectionName", function (req, res, next) {
       console.log();
       i += 1;
     }
-    allTraitTypesData[traitType.trait_type] = [...Object.values(traitType)][3]; //traitType.punk_count
+    allTraitTypesData[traitType.trait_type] = [...Object.values(traitType)][3]; 
+    //traitType.punk_count
   });
 
   let allTraits = db
@@ -135,9 +136,14 @@ router.get("/:collectionName", function (req, res, next) {
 
   let allTraitTypeIds = [];
   allTraits.forEach((trait) => {
+    if(req.params.collectionName != "punk") {
+      // console.log("punk", trait[req.params.collectionName+'_count']);
+      trait.punk_count = trait[req.params.collectionName+'_count'];
+    }
     if (!allTraitTypeIds.includes(trait.trait_type_id.toString())) {
       allTraitTypeIds.push(trait.trait_type_id.toString());
     }
+
   });
 
   let purifySelectedTraits = [];
@@ -204,7 +210,7 @@ router.get("/:collectionName", function (req, res, next) {
   totalPunkCount = [...Object.values(totalPunkCount)][0]
   punks = db.prepare(punksQuery).all(punksQueryValue);
   let totalPage = Math.ceil(totalPunkCount / limit);
-
+  
   res.render("index", {
     appTitle: config.app_name,
     appDescription: config.app_description,
@@ -257,7 +263,6 @@ router.get("/:collectionName/matrix", function (req, res, next) {
     .prepare(`SELECT COUNT(id) as ${req.params.collectionName}_total FROM ${req.params.collectionName}s`)
     .get();
   totalPunkCount = [...Object.values(totalPunkCount)][0]
-  
   res.render("matrix", {
     appTitle: config.app_name,
     appDescription: config.app_description,
