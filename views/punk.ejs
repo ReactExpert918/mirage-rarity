@@ -72,22 +72,12 @@
                   </div>
                 </div>
               <% }); %>
-         <!--  <div>
-            <div>
-              <label></label>
-              <label></label>
-            </div>
-            <div>
-              <p></p>
-              <p></p>
-            </div>
-          </div> -->
         </div>
       </div>
       <div class="backSide">
         <p class="punk-name-footer"><%= punk.name %></p>
         <div>
-          <button>Similar</button>
+          <a href="/<%= item_path_name %>/<%= punk.id %>/similar"><button>Similar</button></a>
           <button>Trade</button>
         </div>
       </div>

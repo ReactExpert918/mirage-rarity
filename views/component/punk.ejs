@@ -9,7 +9,7 @@ punk.id; } %>
   <% if (punk.rarity_rank) { %>
   <h3 class="punk-rank text-dark">Rank #<%= punk.rarity_rank %></h3>
   <% } %> <% if (punk.similar) { %>
-  <h3 class="punk-similar-score text-dark">
+  <h3 class="punk-rank text-dark">
     Similar Score #<%= punk.similar.toFixed(2) %>
   </h3>
   <% } %> <% if (content_image_is_video) { %>

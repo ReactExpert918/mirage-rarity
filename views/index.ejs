@@ -54,22 +54,24 @@
                 if (currentTriat != '') {
                   %>
                   </div>
+                </div>
                   <%
                 }
               %>
             <div class="tab">
-              <input type="checkbox" class="filtercheck" id="chck_<%= trait.trait_type_id %>" />
+              <input type="checkbox" class="filtercheck" id="chck_<%= trait.trait_type_id %>"  />
               <label class="tab-label" for="chck_<%= trait.trait_type_id %>"><%= trait.trait_type %></label>
-              <div class="tab-content">
-                <input class="check" type="checkbox" name="">
-                <label><%= trait.trait_detail_type %> (<%= trait.punk_count %>)</label>
-              </div>
+              <div class="overflow">
+                <div class="tab-content">
+                  <input class="check" type="checkbox" name="<%= trait.trait_type_id %>_<%= trait.trait_detail_type %>" onclick='handleClick(this);'<% if (selectedTraits.includes(trait.trait_type_id+'_'+trait.trait_detail_type)) { %> checked <% } %>' />
+                  <label><%= trait.trait_detail_type %> (<%= trait.punk_count %>)</label>
+                </div>
               <% 
                 currentTriat = trait.trait_type;
               } else {
               %>
               <div class="tab-content">
-                <input class="check" type="checkbox" name="">
+                <input class="check" type="checkbox" name="<%= trait.trait_type_id %>_<%= trait.trait_detail_type %>" onclick='handleClick(this);' <% if (selectedTraits.includes(trait.trait_type_id+'_'+trait.trait_detail_type)) { %> checked <% } %>' />
                 <label><%= trait.trait_detail_type %> (<%= trait.punk_count %>)</label>
               </div>
               <%
@@ -80,6 +82,7 @@
               %>
               <% if (!_.isEmpty(allTraits)) { %>
                 </div>
+              </div>
               <% } %>
             
           </div>
@@ -179,21 +182,27 @@
           });
         }
       });
+        const traitSelects = document.querySelectorAll('.check');
+        function handleClick(e) {
+          // console.log(e.checked)
+          let selectedTraits = getSelectedTraits();
+            if (selectedTraits.length != 0) {
+              window.location = window.location.pathname.replace(/\/+$/, '')+'?search=<%= search %>&traits='+selectedTraits.join(',')+'&trait_normalization=<%= useTraitNormalization %>&order_by=<%= orderBy %>';
+            } else {
+              window.location = window.location.pathname.replace(/\/+$/, '')+ "?search=<%= search %>&trait_normalization=<%= useTraitNormalization %>&order_by=<%= orderBy %>";
+            }
+        }
+        function getSelectedTraits() {
+          let selectedTraits = [];
 
-        var acc = document.getElementsByClassName("accordion");
-var i;
+          traitSelects.forEach(function(traitSelect) {console.log(traitSelect.checked)
+            if (traitSelect.checked) {
+              selectedTraits.push(traitSelect.name);
+            }
+          });
+          return selectedTraits;
+        }
 
-for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var panel = this.nextElementSibling;
-    if (panel.style.maxHeight) {
-      panel.style.maxHeight = null;
-    } else {
-      panel.style.maxHeight = panel.scrollHeight + "px";
-    } 
-  });
-}
     </script>
   </body>
 </html>
